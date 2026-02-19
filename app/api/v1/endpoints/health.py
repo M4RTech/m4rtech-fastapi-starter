@@ -1,10 +1,8 @@
 from fastapi import APIRouter
 from app.core.config import settings
 
-router = APIRouter(
-    prefix="/api/v1",
-    tags=["meta"]
-)
+router = APIRouter(tags=["meta"])
+
 
 @router.get("/health")
 def health():

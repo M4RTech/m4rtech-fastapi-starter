@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-router = APIRouter(prefix="/api/v1", tags=["scan"])
+router = APIRouter(tags=["scan"])
 
 NEXT_ID = 1
 
