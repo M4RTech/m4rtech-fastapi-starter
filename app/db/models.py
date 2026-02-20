@@ -1,10 +1,18 @@
-#models.py
 from datetime import datetime, timezone, date
-from sqlalchemy import Date, DateTime, Integer, String, Index, UniqueConstraint
+
+from sqlalchemy import (
+    Date,
+    DateTime,
+    Integer,
+    String,
+    Index,
+    UniqueConstraint,
+    CheckConstraint,
+)
 from sqlalchemy.orm import Mapped, mapped_column
 
-
 from app.db.base import Base
+
 
 class Scan(Base):
     __tablename__ = "scans"
@@ -24,13 +32,13 @@ class Scan(Base):
     __table_args__ = (
         # 🔐 unikalność biznesowa
         UniqueConstraint("day", "route", "gb_number", name="uq_scans_day_route_gb"),
-
         # 📊 pod summary
         Index("ix_scans_day_route", "day", "route"),
-
         # ⚡ pod listę skanów (sortowanie po czasie)
         Index("ix_scans_day_route_ts", "day", "route", "ts"),
     )
+
+
 class ExpectedItem(Base):
     __tablename__ = "expected_items"
 
@@ -42,4 +50,29 @@ class ExpectedItem(Base):
     __table_args__ = (
         UniqueConstraint("day", "route", "gb_number", name="uq_expected_day_route_gb"),
         Index("ix_expected_day_route", "day", "route"),
+    )
+
+
+class RouteStatus(Base):
+    __tablename__ = "route_status"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    day: Mapped[date] = mapped_column(Date, nullable=False)
+    route: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    # OPEN / CLOSED
+    status: Mapped[str] = mapped_column(String(16), nullable=False, default="OPEN")
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc),
+    )
+
+    __table_args__ = (
+        # 1 rekord statusu na trasę i dzień
+        UniqueConstraint("day", "route", name="uq_route_status_day_route"),
+        Index("ix_route_status_day_route", "day", "route"),
+        # opcjonalnie: ogranicz do dozwolonych wartości
+        CheckConstraint("status IN ('OPEN','CLOSED')", name="ck_route_status_status"),
     )

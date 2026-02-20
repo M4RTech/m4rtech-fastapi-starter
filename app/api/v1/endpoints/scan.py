@@ -1,3 +1,4 @@
+from __future__ import annotations
 #/app/api/v1/endpoints/scan.py
 from datetime import datetime, timezone, date
 from sqlalchemy.exc import IntegrityError
@@ -11,9 +12,6 @@ from app.api.v1.schemas.scan import ScanIn, ScanOut, ScanCreateResponse, ScanLis
 from app.db.models import Scan
 from app.db.session import get_session
 
-router = APIRouter(tags=["scan"])
-
-from __future__ import annotations
 
 from datetime import date
 from typing import Optional
@@ -22,6 +20,9 @@ from sqlalchemy import Select, Delete
 from sqlalchemy.sql import and_
 
 from app.db.models import Scan
+router = APIRouter(tags=["scan"])
+
+
 
 
 def apply_scan_filters(stmt, route: int | None, day: date | None, user: str | None):
