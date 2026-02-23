@@ -13,3 +13,11 @@ __pycache__/
 
 # OS
 .DS_Store
+
+#Database
+*.db
+*.db.*
+*.bak
+
+#Local data
+data/
