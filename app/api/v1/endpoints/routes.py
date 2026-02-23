@@ -1,13 +1,11 @@
 from __future__ import annotations
-from app.db.models import ExpectedItem
+from app.db.models import ExpectedItem, Scan, RouteStatus
 from app.api.v1.schemas.routes import RoutesStatusOut, RouteStatusItem
 from datetime import date
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy import select, func, desc
 from sqlalchemy.orm import Session
-
 from app.db.session import get_session
-from app.db.models import Scan
 
 router = APIRouter(tags=["routes"])
 
@@ -165,3 +163,74 @@ def routes_status(
         )
 
     return RoutesStatusOut(day=day, routes=result)
+@router.post("/routes/{route}/open")
+def open_route(
+    route: int,
+    day: date = Query(..., description="YYYY-MM-DD"),
+    db: Session = Depends(get_session),
+):
+    existing = db.scalar(
+        select(RouteStatus).where(
+            RouteStatus.day == day,
+            RouteStatus.route == route,
+        )
+    )
+
+    if existing:
+        existing.status = "OPEN"
+    else:
+        existing = RouteStatus(day=day, route=route, status="OPEN")
+        db.add(existing)
+
+    db.commit()
+    db.refresh(existing)
+
+    return {
+        "day": day.isoformat(),
+        "route": route,
+        "status": existing.status,
+    }
+@router.post("/routes/{route}/close")
+def close_route(
+    route: int,
+    day: date = Query(..., description="YYYY-MM-DD"),
+    db: Session = Depends(get_session),
+):
+    existing = db.scalar(
+        select(RouteStatus).where(
+            RouteStatus.day == day,
+            RouteStatus.route == route,
+        )
+    )
+
+    if existing:
+        existing.status = "CLOSED"
+    else:
+        existing = RouteStatus(day=day, route=route, status="CLOSED")
+        db.add(existing)
+
+    db.commit()
+    db.refresh(existing)
+
+    return {
+        "day": day.isoformat(),
+        "route": route,
+        "status": existing.status,
+    }
+@router.get("/routes/{route}/state")
+def route_state(
+    route: int,
+    day: date = Query(..., description="YYYY-MM-DD"),
+    db: Session = Depends(get_session),
+):
+    row = db.scalar(
+        select(RouteStatus).where(
+            RouteStatus.day == day,
+            RouteStatus.route == route,
+        )
+    )
+
+    if not row:
+        return {"day": day.isoformat(), "route": route, "status": "NOT_FOUND"}
+
+    return {"day": day.isoformat(), "route": route, "status": row.status}

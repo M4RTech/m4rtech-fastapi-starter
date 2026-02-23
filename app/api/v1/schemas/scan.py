@@ -13,6 +13,7 @@ class ScanIn(BaseModel):
     day: date = Field(default_factory=lambda: datetime.now(timezone.utc).date())
     user: str | None = None
     drop_number: int | None = Field(default=None, ge=1, le=130)
+    closed_mode: str = Field(default="BLOCK", description="BLOCK or REPLACE when route is CLOSED")
 
     @field_validator("gb_number")
     @classmethod
@@ -21,7 +22,14 @@ class ScanIn(BaseModel):
         if not GB_PATTERN.match(gb):
             raise ValueError("Invalid GB number")
         return gb
-
+    
+    @field_validator("closed_mode")
+    @classmethod
+    def validate_closed_mode(cls, v: str) -> str:
+        mode = v.strip().upper()
+        if mode not in {"BLOCK", "REPLACE"}:
+            raise ValueError("closed_mode must be BLOCK or REPLACE")
+        return mode
 
 class ScanOut(BaseModel):
     id: int

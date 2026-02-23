@@ -45,6 +45,22 @@ def apply_scan_filters(stmt, route: int | None, day: date | None, user: str | No
 
 @router.post("/scan", response_model=ScanCreateResponse)
 def scan(payload: ScanIn, db: Session = Depends(get_session)):
+    # 🔒 check route status
+    from app.db.models import RouteStatus
+
+    status_row = db.scalar(
+        select(RouteStatus).where(
+            RouteStatus.day == payload.day,
+            RouteStatus.route == payload.route,
+        )
+    )
+
+    if status_row and status_row.status == "CLOSED":
+        raise HTTPException(
+            status_code=403,
+            detail="Route is CLOSED",
+        )
+
     item = Scan(
         gb_number=payload.gb_number,
         route=payload.route,
