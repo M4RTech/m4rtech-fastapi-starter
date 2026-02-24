@@ -25,3 +25,4 @@ pydantic-settings
 alembic
 psycopg[binary]
 ruff
+jinja2

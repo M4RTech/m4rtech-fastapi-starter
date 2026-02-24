@@ -1,0 +1,25 @@
+<table>
+  <thead>
+    <tr>
+      <th>Route</th>
+      <th>Expected</th>
+      <th>Scanned</th>
+      <th>Missing</th>
+      <th>Coverage</th>
+      <th>Complete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for r in status.routes %}
+    {% set cls = "ok" if r.complete else ("warn" if r.coverage_pct >= 70 else "bad") %}
+    <tr>
+      <td><a href="/ui/route/{{ r.route }}?day={{ day }}">{{ r.route }}</a></td>
+      <td>{{ r.expected_count }}</td>
+      <td>{{ r.scanned_count }}</td>
+      <td>{{ r.missing_count }}</td>
+      <td><span class="pill {{ cls }}">{{ "%.1f"|format(r.coverage_pct) }}%</span></td>
+      <td>{{ "YES" if r.complete else "NO" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

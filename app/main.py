@@ -1,6 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
-
+from app.ui.router import router as ui_router
 from fastapi import FastAPI
 
 from app.core.config import settings
@@ -11,6 +11,8 @@ from app.core.logging import setup_logging
 setup_logging()
 logger = logging.getLogger("app")
 setup_logging()
+
+app.include_router(ui_router)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
