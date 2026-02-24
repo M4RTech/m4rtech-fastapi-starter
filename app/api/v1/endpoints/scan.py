@@ -13,13 +13,8 @@ from app.db.models import Scan
 from app.db.session import get_session
 
 
-from datetime import date
-from typing import Optional
 
-from sqlalchemy import Select, Delete
-from sqlalchemy.sql import and_
 
-from app.db.models import Scan
 router = APIRouter(tags=["scan"])
 
 

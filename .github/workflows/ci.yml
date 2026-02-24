@@ -34,5 +34,6 @@ jobs:
           ruff check .
       
       - name: Run tests
+       # continue-on-error: true
         run: |
           pytest -q

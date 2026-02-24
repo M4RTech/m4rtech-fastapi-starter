@@ -2,7 +2,7 @@ from __future__ import annotations
 from app.db.models import ExpectedItem, Scan, RouteStatus
 from app.api.v1.schemas.routes import RoutesStatusOut, RouteStatusItem
 from datetime import date
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select, func, desc
 from sqlalchemy.orm import Session
 from app.db.session import get_session
