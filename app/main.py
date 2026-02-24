@@ -9,9 +9,7 @@ from app.db.init_db import init_db
 from app.core.logging import setup_logging
 
 setup_logging()
-
 logger = logging.getLogger("app")
-from app.core.logging import setup_logging
 setup_logging()
 
 @asynccontextmanager
