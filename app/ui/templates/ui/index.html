@@ -1,0 +1,32 @@
+{% extends "ui/base.html" %}
+{% block title %}Dashboard • M4RTech{% endblock %}
+
+{% block content %}
+<section class="card">
+  <div class="row">
+    <div>
+      <h1>Routes status</h1>
+      <p class="muted">Select day and monitor scan progress. Auto-refresh every 5 seconds.</p>
+    </div>
+
+    <form class="controls" method="get" action="/ui">
+      <label>
+        Day
+        <input type="date" name="day" value="{{ day }}" />
+      </label>
+      <button type="submit">Load</button>
+    </form>
+  </div>
+</section>
+
+<section class="card">
+  <div
+    id="routes-table"
+    hx-get="/ui/partials/routes-table?day={{ day }}"
+    hx-trigger="load, every 5s"
+    hx-swap="innerHTML"
+  >
+    <div class="muted">Loading…</div>
+  </div>
+</section>
+{% endblock %}

@@ -1,8 +1,8 @@
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-
-from app.ui.router import router as ui_router
+from fastapi.staticfiles import StaticFiles
+from app.ui.router import ui_router
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.db.init_db import init_db
@@ -35,3 +35,6 @@ app.include_router(ui_router)
 
 # API
 app.include_router(api_router, prefix="/api/v1")
+
+
+app.mount("/static", StaticFiles(directory="app/ui/static"), name="static")

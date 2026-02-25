@@ -1,0 +1,31 @@
+:root { font-family: system-ui, Arial, sans-serif; }
+body { margin: 0; background: #0b0f14; color: #e8eef7; }
+a { color: inherit; }
+.container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+.topbar { background: #0f1620; border-bottom: 1px solid #1b2838; }
+.brand { font-weight: 700; letter-spacing: 0.5px; }
+.subtitle { color: #a9b6c8; font-size: 14px; margin-top: 4px; }
+
+.card { background: #0f1620; border: 1px solid #1b2838; border-radius: 12px; padding: 16px; margin: 12px 0; }
+.row { display: flex; gap: 16px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+
+.controls { display: flex; gap: 12px; align-items: end; }
+label { display: grid; gap: 6px; font-size: 14px; color: #a9b6c8; }
+input, button { padding: 10px 12px; border-radius: 10px; border: 1px solid #23344a; background: #0b0f14; color: #e8eef7; }
+button { cursor: pointer; background: #122033; }
+
+.table { width: 100%; border-collapse: collapse; }
+th, td { padding: 10px 10px; border-bottom: 1px solid #1b2838; }
+th { text-align: left; color: #a9b6c8; font-weight: 600; font-size: 13px; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.right { text-align: right; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.muted { color: #a9b6c8; }
+.link { text-decoration: none; color: #cfe3ff; }
+
+.pill { padding: 4px 10px; border-radius: 999px; font-size: 12px; border: 1px solid #23344a; }
+.pill-ok { background: rgba(0, 180, 120, 0.12); border-color: rgba(0, 180, 120, 0.35); }
+.pill-in_progress { background: rgba(255, 196, 0, 0.10); border-color: rgba(255, 196, 0, 0.35); }
+
+.footer { padding-top: 8px; padding-bottom: 24px; }

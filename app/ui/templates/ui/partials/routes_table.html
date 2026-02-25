@@ -1,0 +1,28 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Route</th>
+      <th>Status</th>
+      <th class="num">Expected</th>
+      <th class="num">Scanned</th>
+      <th class="num">Missing</th>
+      <th class="num">Extra</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="mono">{{ r.route }}</td>
+      <td><span class="pill pill-{{ r.status|lower }}">{{ r.status }}</span></td>
+      <td class="num">{{ r.expected }}</td>
+      <td class="num">{{ r.scanned }}</td>
+      <td class="num">{{ r.missing }}</td>
+      <td class="num">{{ r.extra }}</td>
+      <td class="right">
+        <a class="link" href="/ui/routes/{{ r.route }}?day={{ day }}">details →</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

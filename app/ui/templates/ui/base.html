@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}M4RTech Scan Dashboard{% endblock %}</title>
+
+  <link rel="stylesheet" href="/static/ui/app.css" />
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="brand">M4RTech</div>
+      <div class="subtitle">Scan API • Ops Dashboard</div>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer container">
+    <span class="muted">HTMX + Jinja • minimal ops UI</span>
+  </footer>
+</body>
+</html>
