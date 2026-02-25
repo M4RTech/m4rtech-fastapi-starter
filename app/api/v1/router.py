@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.api.v1.endpoints import health, scan, routes, reconcile, expected
 
-api_router = APIRouter(prefix="/api/v1")
+api_router = APIRouter()
 
 api_router.include_router(reconcile.router)
 api_router.include_router(health.router)
